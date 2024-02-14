@@ -108,16 +108,6 @@ def create_fasta_lookup_table(species_accessions, output_fasta):
                 print (species, accession, fasta_record)
     return fasta_accession_sequences
 
-def revcomp(dna):
-    bpcomp = {'A':'T', 'T':'A', 'C':'G', 'G':'C', 'N':'N'}
-    rc = []
-    for nuc in dna[::-1]:  # Iterate over the reverse of the DNA sequence
-        if nuc in bpcomp:
-            rc.append(bpcomp[nuc])  # Append the complement nucleotide to the reverse complement list
-        else:
-            break
-    return ''.join(rc)  # Return the reverse complement as a string
-
 def blast_sequence(seq_object, accession, db, blast_out, alignment_out, timeout_seconds, species):
     Entrez.email = email
     Entrez.api_key = api
