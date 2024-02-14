@@ -56,7 +56,8 @@ def search_species(species_list):
             total += int(count)  # Accumulate the count
         
     return species_accessions, total
-        
+    
+# Function to get description from accession number        
 def get_species(accession):
     Entrez.email = email
     Entrez.api_key = api
@@ -65,7 +66,8 @@ def get_species(accession):
     handle.close()
     species = record.description
     return species
-        
+    
+# Function to identify if each species has full genomes        
 def search_genomes(species_list):
     print("Searching for whole alignments...")
     Entrez.email = email
@@ -75,7 +77,7 @@ def search_genomes(species_list):
         record = Entrez.read(handle)
         count = record["Count"]
         print(f"{species}: {count}")
-
+        
 # Function to fetch fastas from accession numbers
 def fetch_fasta_from_ncbi(accession):
     try:
@@ -107,7 +109,8 @@ def create_fasta_lookup_table(species_accessions, output_fasta):
                     continue
                 print (species, accession, fasta_record)
     return fasta_accession_sequences
-
+    
+# Functon to blast sequence and pull alignment from blast results
 def blast_sequence(seq_object, accession, db, blast_out, alignment_out, timeout_seconds, species):
     Entrez.email = email
     Entrez.api_key = api
@@ -156,7 +159,7 @@ def blast_sequence(seq_object, accession, db, blast_out, alignment_out, timeout_
                             print("\n")  # Separator between alignments
             print(f"Alignments written to {alignment_out}")
             
-            # Check if the thread is still alive (i.e., not finished within timeout)
+            # Check if the thread has timed out
             if blast_thread.is_alive():
                 print(f"BLAST search for sequence {accession} took longer than {timeout_seconds} seconds and timed out. Moving on to the next sequence.")
                 blast_thread.cancel()
